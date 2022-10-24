@@ -1,4 +1,4 @@
-package com.group.librayapp.domain.book
+package com.group.libraryapp.domain.book
 
 import java.lang.IllegalArgumentException
 import javax.persistence.Entity

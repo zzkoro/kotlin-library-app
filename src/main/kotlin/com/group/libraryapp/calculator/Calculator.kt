@@ -1,4 +1,4 @@
-package com.group.librayapp.calculator
+package com.group.libraryapp.calculator
 
 import java.lang.IllegalArgumentException
 

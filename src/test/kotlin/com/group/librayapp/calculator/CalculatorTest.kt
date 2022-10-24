@@ -1,5 +1,6 @@
 package com.group.librayapp.calculator
 
+import com.group.libraryapp.calculator.Calculator
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 

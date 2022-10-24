@@ -1,6 +1,5 @@
 package com.group.libraryapp.service.book
 
-import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory
@@ -8,7 +7,8 @@ import com.group.libraryapp.domain.user.loanhistory.UserLoanHistoryRepository
 import com.group.libraryapp.dto.book.request.BookLoanRequest
 import com.group.libraryapp.dto.book.request.BookRequest
 import com.group.libraryapp.dto.book.request.BookReturnRequest
-import com.group.librayapp.domain.book.Book
+import com.group.libraryapp.domain.book.Book
+import com.group.libraryapp.domain.book.BookRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -92,7 +92,7 @@ open class BookServiceTest (
         // given
         val savedBook = bookRepository.save(Book("Alice Book"))
         val savedUser = userRepository.save(User("AAA", null))
-        userLoanHistoryRepository.save(UserLoanHistory(savedUser, savedBook.name, false))
+        userLoanHistoryRepository.save(UserLoanHistory(savedUser, savedBook.name, false, null))
 
         val bookLoanRequest = BookLoanRequest("AAA", "Alice Book")
 

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @SpringBootTest
 open class UserServiceTest (
@@ -63,6 +64,7 @@ open class UserServiceTest (
     }
 
     @Test
+    @DisplayName("사용자 삭제 테스트")
     @Transactional
     open fun deleteUserTest() {
         // given
