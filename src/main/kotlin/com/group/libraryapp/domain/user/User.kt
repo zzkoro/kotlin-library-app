@@ -5,7 +5,7 @@ import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory
 import javax.persistence.*
 
 @Entity
-class User (
+class User constructor(
 
     @Column(nullable = false)
     var name: String,
@@ -19,6 +19,8 @@ class User (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 ) {
+
+
     init {
         if (name.isBlank()) {
             throw IllegalArgumentException("이름은 비어 있을 수 없습니다.")
