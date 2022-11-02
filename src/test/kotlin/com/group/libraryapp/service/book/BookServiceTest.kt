@@ -9,6 +9,7 @@ import com.group.libraryapp.dto.book.request.BookRequest
 import com.group.libraryapp.dto.book.request.BookReturnRequest
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
+import com.group.libraryapp.domain.book.BookType
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -50,8 +51,7 @@ open class BookServiceTest (
     @Order(1)
     open fun saveBookTest() {
         // given
-        val request = BookRequest("Alice Book")
-
+        val request = BookRequest("Alice Book", BookType.COMPUTER)
 
         // when
         bookService.saveBook(request)
@@ -68,7 +68,7 @@ open class BookServiceTest (
     @Order(2)
     open fun loanBookTest() {
         // given
-        bookRepository.save(Book("Alice Book"))
+        bookRepository.save(Book.fixture("Alice Book"))
         userRepository.save(User("AAA", null))
 
         val bookLoanRequest = BookLoanRequest("AAA", "Alice Book")
@@ -90,7 +90,7 @@ open class BookServiceTest (
     @Order(3)
     open fun loanBookFailTest() {
         // given
-        val savedBook = bookRepository.save(Book("Alice Book"))
+        val savedBook = bookRepository.save(Book.fixture("Alice Book"))
         val savedUser = userRepository.save(User("AAA", null))
         userLoanHistoryRepository.save(UserLoanHistory(savedUser, savedBook.name, false, null))
 
@@ -108,7 +108,7 @@ open class BookServiceTest (
     @Order(4)
     open fun returnBookTest() {
         // given
-        val savedBook = bookRepository.save(Book("Alice Book"))
+        val savedBook = bookRepository.save(Book.fixture("Alice Book"))
         val savedUser = userRepository.save(User("AAA", null))
 
         val bookLoanRequest = BookLoanRequest("AAA", "Alice Book")
