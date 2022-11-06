@@ -1,15 +1,15 @@
 package com.group.libraryapp.domain.book
 
 import java.lang.IllegalArgumentException
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 class Book(
     val name: String,
+
+    @Enumerated(EnumType.STRING)
     val type: BookType,
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,

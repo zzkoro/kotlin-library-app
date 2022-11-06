@@ -10,6 +10,7 @@ import com.group.libraryapp.dto.book.request.BookReturnRequest
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.book.BookType
+import com.group.libraryapp.domain.user.loanhistory.UserLoanStatus
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -81,7 +82,7 @@ open class BookServiceTest (
         assertThat(results).hasSize(1)
         assertThat(results[0].bookName).isEqualTo("Alice Book")
         assertThat(results[0].user.name).isEqualTo("AAA")
-        assertThat(results[0].isReturn).isFalse()
+        assertThat(results[0].status).isEqualTo(UserLoanStatus.LOANED)
     }
 
     @Test
@@ -92,7 +93,7 @@ open class BookServiceTest (
         // given
         val savedBook = bookRepository.save(Book.fixture("Alice Book"))
         val savedUser = userRepository.save(User("AAA", null))
-        userLoanHistoryRepository.save(UserLoanHistory(savedUser, savedBook.name, false, null))
+        userLoanHistoryRepository.save(UserLoanHistory.fixture(savedUser, savedBook.name))
 
         val bookLoanRequest = BookLoanRequest("AAA", "Alice Book")
 
@@ -123,7 +124,7 @@ open class BookServiceTest (
         val results = userLoanHistoryRepository.findAll()
         assertThat(results).hasSize(1)
         assertThat(results[0].bookName).isEqualTo("Alice Book")
-        assertThat(results[0].isReturn).isTrue()
+        assertThat(results[0].status).isEqualTo(UserLoanStatus.RETURNED)
 
     }
 
