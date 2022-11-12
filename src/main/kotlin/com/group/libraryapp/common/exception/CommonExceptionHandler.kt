@@ -16,7 +16,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 //class CommonExceptionHandler : ResponseEntityExceptionHandler() {
-class CommonExceptionHandler : ResponseEntityExceptionHandler() {
+//class CommonExceptionHandler : ResponseEntityExceptionHandler() {
+class CommonExceptionHandler {
+
+
     val log = logger<CommonExceptionHandler>()
 
 //    override fun handleMethodArgumentNotValid(

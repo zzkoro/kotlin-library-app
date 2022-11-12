@@ -43,12 +43,13 @@ open class BookServiceTest (
 
     @AfterEach
     fun afterEach() {
-        println("after each")
+        println("clean test data after each")
+        bookRepository.deleteAll()
+        userRepository.deleteAll()
     }
 
     @Test
     @DisplayName("책 저장 테스트")
-    @Transactional
     @Order(1)
     open fun saveBookTest() {
         // given
@@ -65,7 +66,6 @@ open class BookServiceTest (
 
     @Test
     @DisplayName("책 대출 테스트")
-    @Transactional
     @Order(2)
     open fun loanBookTest() {
         // given
@@ -87,7 +87,6 @@ open class BookServiceTest (
 
     @Test
     @DisplayName("책 대출 실패 테스트 - 이미 대출되어 있는 책의 경우 ")
-    @Transactional
     @Order(3)
     open fun loanBookFailTest() {
         // given
@@ -104,7 +103,6 @@ open class BookServiceTest (
     }
 
     @Test
-    @Transactional
     @DisplayName("책 반납 테스트")
     @Order(4)
     open fun returnBookTest() {
@@ -128,4 +126,48 @@ open class BookServiceTest (
 
     }
 
+    @Test
+    @DisplayName("책 대여 권수를 정상 확인한다.")
+    fun countLoanedBookType() {
+        // given
+        var savedUser = userRepository.save(User("AAA", null))
+        userLoanHistoryRepository.saveAll(
+            listOf(
+                UserLoanHistory.fixture(savedUser, "A"),
+                UserLoanHistory.fixture(savedUser, "B", UserLoanStatus.RETURNED),
+                UserLoanHistory.fixture(savedUser, "C", UserLoanStatus.RETURNED),
+            )
+        )
+
+        // when
+        val result = bookService.countLoanedBook()
+
+        //then
+        assertThat(result).isEqualTo(1)
+    }
+
+    @Test
+    @DisplayName("분야별 책 권수를 정상 확인한다.")
+    fun getBookStatisticsTest() {
+        // given
+        bookRepository.saveAll(
+            listOf(
+                Book.fixture("A", BookType.COMPUTER),
+                Book.fixture("B", BookType.COMPUTER),
+                Book.fixture("C", BookType.SCIENCE),
+            )
+        )
+
+        // when
+        val results = bookService.getBookStatistics()
+
+        //then
+        assertThat(results).hasSize(2)
+        val computerDto = results.first { result -> result.type == BookType.COMPUTER }
+        assertThat(computerDto.count).isEqualTo(2)
+
+        val scienceDto = results.first { result -> result.type == BookType.SCIENCE }
+        assertThat(scienceDto.count).isEqualTo(1)
+
+    }
 }

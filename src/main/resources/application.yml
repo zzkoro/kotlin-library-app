@@ -1,6 +1,12 @@
 server:
   port: 8080
 
+#logging:
+#  level:
+#    root: debug
+##    org.springframwwork.web: debug
+##    org.hibernate.SQL: debug
+
 spring:
   datasource:
     url: 'jdbc:h2:mem:library'

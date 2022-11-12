@@ -1,5 +1,6 @@
 package com.group.libraryapp.service.user
 
+import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory
@@ -26,12 +27,12 @@ open class UserServiceTest (
 
     @AfterEach
     fun afterEach() {
-        println("after each")
+        println("clean test data after each")
+        userRepository.deleteAll()
     }
 
     @Test
     @DisplayName("사용자 저장 테스트")
-    @Transactional
     open fun saveUserTest() {
         // given
         val request = UserCreateRequest("aaa", null)
@@ -49,7 +50,6 @@ open class UserServiceTest (
 
     @Test
     @DisplayName("사용자 조회 테스트")
-    @Transactional
     open fun geUsersTest() {
         // given
         userRepository.saveAll(listOf(
@@ -70,7 +70,6 @@ open class UserServiceTest (
 
     @Test
     @DisplayName("사용자 삭제 테스트")
-    @Transactional
     open fun deleteUserTest() {
         // given
         userRepository.save(User("A", null))
@@ -84,7 +83,6 @@ open class UserServiceTest (
 
     @Test
     @DisplayName("대출 기록이 없는 유저도 응답에 포함된다.")
-    @Transactional
     fun getUserLoanHistoriesTest1() {
         // given
         userRepository.save(User("A", null))
@@ -100,15 +98,19 @@ open class UserServiceTest (
 
     @Test
     @DisplayName("대출 기록이 많은 유저의 응답이 정상 동작한다.")
-    @Transactional
     fun getUserLoanHistoriesTest2() {
         // given
         val savedUser = userRepository.save(User("A", null))
-        val savedUser2 = userRepository.save(User("B", null))
         userLoanHistoryRepository.saveAll(listOf(
             UserLoanHistory.fixture(savedUser, "B1", UserLoanStatus.LOANED),
             UserLoanHistory.fixture(savedUser, "B2", UserLoanStatus.LOANED),
             UserLoanHistory.fixture(savedUser, "B3", UserLoanStatus.RETURNED),
+        ))
+
+        val savedUser2 = userRepository.save(User("B", null))
+        userLoanHistoryRepository.saveAll(listOf(
+            UserLoanHistory.fixture(savedUser2, "B1", UserLoanStatus.LOANED),
+            UserLoanHistory.fixture(savedUser2, "B2", UserLoanStatus.LOANED),
         ))
 
         // when
@@ -117,9 +119,9 @@ open class UserServiceTest (
         // then
         assertThat(results).hasSize(2)
         val userResults = results.first { it.name == "A" }
-        assertThat(results[0].name).isEqualTo("A")
-        assertThat(results[0].books).hasSize(3)
-        assertThat(results[0].books).extracting(("name")).containsExactlyInAnyOrder("B1","B2","B3")
+        assertThat(userResults.name).isEqualTo("A")
+        assertThat(userResults.books).hasSize(3)
+        assertThat(userResults.books).extracting(("name")).containsExactlyInAnyOrder("B1","B2","B3")
 
     }
 
