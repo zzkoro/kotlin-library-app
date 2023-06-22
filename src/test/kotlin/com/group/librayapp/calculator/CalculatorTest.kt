@@ -22,7 +22,6 @@ internal class CalculatorTest {
         fun afterAll() {
             println("beforeAll")
         }
-
     }
 
     @BeforeEach
@@ -99,6 +98,5 @@ internal class CalculatorTest {
         assertThrows<IllegalArgumentException> {
             calculator.divide(0)
         }
-
     }
 }

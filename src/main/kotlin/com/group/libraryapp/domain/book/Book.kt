@@ -28,7 +28,6 @@ class Book(
             id: Long? = null
         ): Book {
             return Book(name = name, type = type, id = id)
-
         }
     }
 }

@@ -9,7 +9,7 @@ data class UserResponse(
 ) {
 
     companion object {
-        fun of(user:User): UserResponse {
+        fun of(user: User): UserResponse {
             return UserResponse(
                 id = user.id!!,
                 name = user.name,
@@ -23,5 +23,4 @@ data class UserResponse(
 //        name = user.name,
 //        age = user.age
 //    )
-
 }

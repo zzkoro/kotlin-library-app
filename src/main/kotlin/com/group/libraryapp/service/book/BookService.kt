@@ -2,7 +2,6 @@ package com.group.libraryapp.service.book
 
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
-import com.group.libraryapp.domain.book.BookType
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanhistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanhistory.UserLoanStatus
@@ -17,13 +16,13 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class BookService (
+class BookService(
     private val bookRepository: BookRepository,
     private val userRepository: UserRepository,
     private val userLoanHistoryRepository: UserLoanHistoryRepository,
     private val bookQuerydslRepository: BookQuerydslRepository,
     private val userLoanHistoryQuerydslRepository: UserLoanHistoryQuerydslRepository,
-    ) {
+) {
 
     @Transactional
     fun saveBook(request: BookRequest) {
@@ -64,7 +63,6 @@ class BookService (
 //        return bookRepository.findAll()
 //            .groupBy { book -> book.type } // Map<BookType, List<Book>>
 //            .map { (type, books) -> BookStatResponse(type, books.size.toLong()) }
-
 
 //        val results = mutableListOf<BookStatResponse>()
 //        val books = bookRepository.findAll()

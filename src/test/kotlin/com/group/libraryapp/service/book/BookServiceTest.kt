@@ -15,11 +15,10 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-open class BookServiceTest (
+open class BookServiceTest(
     @Autowired private val bookRepository: BookRepository,
     @Autowired private val bookService: BookService,
     @Autowired private val userRepository: UserRepository,
@@ -39,7 +38,6 @@ open class BookServiceTest (
             println("afterAll")
         }
     }
-
 
     @AfterEach
     fun afterEach() {
@@ -123,7 +121,6 @@ open class BookServiceTest (
         assertThat(results).hasSize(1)
         assertThat(results[0].bookName).isEqualTo("Alice Book")
         assertThat(results[0].status).isEqualTo(UserLoanStatus.RETURNED)
-
     }
 
     @Test
@@ -168,6 +165,5 @@ open class BookServiceTest (
 
         val scienceDto = results.first { result -> result.type == BookType.SCIENCE }
         assertThat(scienceDto.count).isEqualTo(1)
-
     }
 }

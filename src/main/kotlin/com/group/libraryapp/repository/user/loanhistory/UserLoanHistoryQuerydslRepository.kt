@@ -7,9 +7,9 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
 
 @Component
-class UserLoanHistoryQuerydslRepository (
+class UserLoanHistoryQuerydslRepository(
     private val queryFactory: JPAQueryFactory,
-){
+) {
     fun find(bookName: String, status: UserLoanStatus? = null): UserLoanHistory? {
         return queryFactory
             .select(userLoanHistory)

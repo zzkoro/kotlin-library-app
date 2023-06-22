@@ -1,6 +1,5 @@
 package com.group.libraryapp.service.user
 
-import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory
@@ -13,17 +12,15 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @SpringBootTest
-open class UserServiceTest (
+open class UserServiceTest(
     @Autowired private val userRepository: UserRepository,
     @Autowired private val userService: UserService,
     @Autowired private val userLoanHistoryRepository: UserLoanHistoryRepository,
 
 ) {
-
 
     @AfterEach
     fun afterEach() {
@@ -36,7 +33,6 @@ open class UserServiceTest (
     open fun saveUserTest() {
         // given
         val request = UserCreateRequest("aaa", null)
-
 
         // when
         userService.saveUser(request)
@@ -52,10 +48,12 @@ open class UserServiceTest (
     @DisplayName("사용자 조회 테스트")
     open fun geUsersTest() {
         // given
-        userRepository.saveAll(listOf(
-            User("A", 20),
-            User("B", null)
-        ))
+        userRepository.saveAll(
+            listOf(
+                User("A", 20),
+                User("B", null)
+            )
+        )
 
         // when
         val results = userService.getUsers()
@@ -64,8 +62,6 @@ open class UserServiceTest (
         assertThat(results).hasSize(2)
         assertThat(results).extracting("name").containsExactlyInAnyOrder("A", "B")
         assertThat(results).extracting("age").containsExactlyInAnyOrder(20, null)
-
-
     }
 
     @Test
@@ -101,17 +97,21 @@ open class UserServiceTest (
     fun getUserLoanHistoriesTest2() {
         // given
         val savedUser = userRepository.save(User("A", null))
-        userLoanHistoryRepository.saveAll(listOf(
-            UserLoanHistory.fixture(savedUser, "B1", UserLoanStatus.LOANED),
-            UserLoanHistory.fixture(savedUser, "B2", UserLoanStatus.LOANED),
-            UserLoanHistory.fixture(savedUser, "B3", UserLoanStatus.RETURNED),
-        ))
+        userLoanHistoryRepository.saveAll(
+            listOf(
+                UserLoanHistory.fixture(savedUser, "B1", UserLoanStatus.LOANED),
+                UserLoanHistory.fixture(savedUser, "B2", UserLoanStatus.LOANED),
+                UserLoanHistory.fixture(savedUser, "B3", UserLoanStatus.RETURNED),
+            )
+        )
 
         val savedUser2 = userRepository.save(User("B", null))
-        userLoanHistoryRepository.saveAll(listOf(
-            UserLoanHistory.fixture(savedUser2, "B1", UserLoanStatus.LOANED),
-            UserLoanHistory.fixture(savedUser2, "B2", UserLoanStatus.LOANED),
-        ))
+        userLoanHistoryRepository.saveAll(
+            listOf(
+                UserLoanHistory.fixture(savedUser2, "B1", UserLoanStatus.LOANED),
+                UserLoanHistory.fixture(savedUser2, "B2", UserLoanStatus.LOANED),
+            )
+        )
 
         // when
         val results = userService.getUserLoanHistories()
@@ -121,8 +121,6 @@ open class UserServiceTest (
         val userResults = results.first { it.name == "A" }
         assertThat(userResults.name).isEqualTo("A")
         assertThat(userResults.books).hasSize(3)
-        assertThat(userResults.books).extracting(("name")).containsExactlyInAnyOrder("B1","B2","B3")
-
+        assertThat(userResults.books).extracting(("name")).containsExactlyInAnyOrder("B1", "B2", "B3")
     }
-
 }

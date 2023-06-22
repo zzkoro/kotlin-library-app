@@ -9,5 +9,4 @@ interface UserRepository : JpaRepository<User, Long>, UserRepositoryCustom {
 
     @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.userLoanHistories")
     fun findAllWithHistories(): List<User>
-
 }

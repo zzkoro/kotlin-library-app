@@ -5,7 +5,7 @@ import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory
 import com.group.libraryapp.domain.user.loanhistory.UserLoanStatus
 
 data class UserLoanHistoryResponse(
-    val name: String,  // 유저 이름
+    val name: String, // 유저 이름
     val books: List<BookHistoryResponse>
 ) {
     companion object {

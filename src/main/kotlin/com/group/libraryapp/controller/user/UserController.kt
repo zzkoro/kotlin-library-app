@@ -36,5 +36,4 @@ class UserController(
     fun getUserLoanHistories(): List<UserLoanHistoryResponse> {
         return userService.getUserLoanHistories()
     }
-
 }

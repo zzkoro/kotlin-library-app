@@ -14,4 +14,4 @@ fun <T, ID> CrudRepository<T, ID>.findByIdOrThrow(id: ID): T {
     return this.findByIdOrNull(id) ?: fail()
 }
 
-inline fun <reified T> logger() : Logger = LoggerFactory.getLogger(T::class.java)
+inline fun <reified T> logger(): Logger = LoggerFactory.getLogger(T::class.java)
